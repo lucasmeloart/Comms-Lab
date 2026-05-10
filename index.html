@@ -1,0 +1,1643 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casa Digital Comms Lab</title>
+  <style>
+    :root {
+      --ink: #06110d;
+      --ink-2: #0a1913;
+      --forest: #0e2a20;
+      --moss: #153b2d;
+      --leaf: #1f5a42;
+      --mint: #88f2b6;
+      --mint-2: #b7ffd5;
+      --cream: #eef7ec;
+      --paper: #d9e7da;
+      --muted: #9bb4a5;
+      --muted-2: #6d8376;
+      --line: #244638;
+      --line-soft: #163126;
+      --amber: #f4bd62;
+      --coral: #ff7d72;
+      --blue: #8bb6ff;
+      --violet: #c9a4ff;
+      --radius: 8px;
+      --shadow: 0 22px 70px rgba(0, 0, 0, .34);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--cream);
+      background:
+        linear-gradient(180deg, #171b1c, #232829),
+        repeating-linear-gradient(90deg, rgba(238, 247, 236, .025) 0 1px, transparent 1px 72px),
+        repeating-linear-gradient(0deg, rgba(238, 247, 236, .018) 0 1px, transparent 1px 72px);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .login-screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background:
+        linear-gradient(145deg, #171b1c, #252b2d),
+        repeating-linear-gradient(90deg, rgba(238, 247, 236, .03) 0 1px, transparent 1px 62px);
+    }
+
+    .login-card {
+      width: min(980px, 100%);
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      border: 1px solid rgba(136, 242, 182, .18);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: rgba(10, 25, 19, .92);
+      box-shadow: var(--shadow);
+    }
+
+    .login-story {
+      min-height: 620px;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(135deg, rgba(136, 242, 182, .1), transparent 42%),
+        linear-gradient(180deg, rgba(21, 59, 45, .86), rgba(6, 17, 13, .96));
+    }
+
+    .logo {
+      display: inline-grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: var(--mint);
+      font-weight: 950;
+      box-shadow: 0 14px 28px rgba(136, 242, 182, .14);
+    }
+
+    .logo.avatar-logo {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid rgba(136, 242, 182, .36);
+    }
+
+    .logo.avatar-logo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .login-story h1 {
+      max-width: 560px;
+      margin: 32px 0 14px;
+      font-size: clamp(38px, 5vw, 62px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .login-story p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--paper);
+      line-height: 1.55;
+      font-size: 17px;
+    }
+
+    .login-signature {
+      display: block;
+      margin-top: 18px;
+      color: var(--mint-2);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      font-style: italic;
+      letter-spacing: .01em;
+    }
+
+    .mini-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .mini-metrics div {
+      padding: 16px;
+      border: 1px solid rgba(238, 247, 236, .12);
+      border-radius: var(--radius);
+      background: rgba(6, 17, 13, .42);
+    }
+
+    .mini-metrics strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .mini-metrics span {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 850;
+    }
+
+    .login-form-wrap {
+      display: flex;
+      align-items: center;
+      padding: 48px;
+      color: var(--ink);
+      background: var(--cream);
+    }
+
+    .login-form {
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #176144;
+      font-size: 12px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #176144;
+    }
+
+    .login-form h2 {
+      margin: 14px 0 8px;
+      font-size: 30px;
+    }
+
+    .login-form p {
+      margin: 0 0 26px;
+      color: #55675b;
+      line-height: 1.5;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      color: inherit;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 1px solid #b8c9bd;
+      border-radius: var(--radius);
+      color: inherit;
+      background: #fff;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #176144;
+      box-shadow: 0 0 0 4px rgba(23, 97, 68, .13);
+    }
+
+    .dark-field input,
+    .dark-field select,
+    .dark-field textarea {
+      color: var(--cream);
+      border-color: var(--line);
+      background: rgba(6, 17, 13, .74);
+    }
+
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      color: var(--cream);
+      background: var(--moss);
+      font-weight: 900;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(136, 242, 182, .38);
+    }
+
+    .btn.primary {
+      color: var(--ink);
+      background: var(--mint);
+    }
+
+    .btn.paper {
+      color: var(--ink);
+      background: #d8eadb;
+    }
+
+    .btn.subtle {
+      background: rgba(238, 247, 236, .06);
+      border-color: var(--line);
+    }
+
+    .login-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .error {
+      min-height: 20px;
+      margin: 10px 0 0 !important;
+      color: #b42318 !important;
+      font-size: 13px;
+    }
+
+    .notice {
+      margin-top: 16px;
+      color: #647267;
+      font-size: 12px;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(6, 17, 13, .9);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 236px;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav-tabs {
+      min-width: 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-tabs button {
+      min-height: 38px;
+      padding: 9px 12px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: transparent;
+      font-weight: 850;
+    }
+
+    .nav-tabs button.active,
+    .nav-tabs button:hover {
+      color: var(--cream);
+      border-color: var(--line);
+      background: rgba(238, 247, 236, .06);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .container {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 28px 24px 52px;
+    }
+
+    .page-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .page-head h1 {
+      max-width: 880px;
+      margin: 0 0 8px;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .page-head p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border: 1px solid rgba(136, 242, 182, .26);
+      border-radius: 999px;
+      color: var(--mint-2);
+      background: rgba(136, 242, 182, .08);
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .two {
+      grid-template-columns: minmax(0, 1.04fr) minmax(360px, .96fr);
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(136, 242, 182, .07), transparent 34%),
+        rgba(10, 25, 19, .88);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .18);
+    }
+
+    .panel.pad {
+      padding: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .studio-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 400px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .span-all {
+      grid-column: 1 / -1;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .output-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .score-ring {
+      --value: 82;
+      width: 168px;
+      aspect-ratio: 1;
+      margin: 8px auto 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, var(--ink-2) 0 58%, transparent 59%),
+        conic-gradient(var(--mint) calc(var(--value) * 1%), rgba(238, 247, 236, .12) 0);
+    }
+
+    .score-ring strong {
+      font-size: 36px;
+    }
+
+    .score-ring span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .metric-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) 44px;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .track {
+      height: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      background: rgba(6, 17, 13, .78);
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--mint), var(--amber));
+    }
+
+    .generated {
+      min-height: 148px;
+      padding: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      color: var(--paper);
+      background: rgba(6, 17, 13, .7);
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .check-card {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--paper);
+      background: rgba(238, 247, 236, .05);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .check-card input {
+      width: 16px;
+      min-height: 16px;
+      accent-color: var(--mint);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--paper);
+      background: rgba(238, 247, 236, .05);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .chip.good {
+      border-color: rgba(136, 242, 182, .32);
+      color: var(--mint-2);
+    }
+
+    .chip.warn {
+      border-color: rgba(244, 189, 98, .35);
+      color: var(--amber);
+    }
+
+    .chip.bad {
+      border-color: rgba(255, 125, 114, .35);
+      color: var(--coral);
+    }
+
+    .voice-board {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 16px;
+    }
+
+    .slider-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    input[type="range"] {
+      padding: 0;
+      min-height: 24px;
+      accent-color: var(--mint);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .voice-card {
+      padding: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: rgba(6, 17, 13, .54);
+    }
+
+    .voice-card strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .voice-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .prompt-preview {
+      min-height: 180px;
+      padding: 14px;
+      border: 1px dashed rgba(136, 242, 182, .3);
+      border-radius: var(--radius);
+      color: var(--paper);
+      background: rgba(6, 17, 13, .62);
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+
+    .insight-shell {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+      min-height: 270px;
+    }
+
+    .bar {
+      display: grid;
+      grid-template-columns: 130px 1fr 50px;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .bar button {
+      width: 100%;
+      height: 16px;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      background: rgba(6, 17, 13, .78);
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--mint), var(--blue));
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+      min-height: 220px;
+      align-items: end;
+    }
+
+    .signal {
+      min-height: 34px;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: rgba(238, 247, 236, .06);
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .signal span {
+      width: 100%;
+      display: block;
+      background: linear-gradient(180deg, var(--mint), var(--leaf));
+    }
+
+    .signal-labels {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+      color: var(--muted-2);
+      font-size: 11px;
+      text-align: center;
+      font-weight: 850;
+    }
+
+    .table-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) .7fr .7fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 58px;
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: rgba(6, 17, 13, .56);
+    }
+
+    .table-row strong {
+      display: block;
+    }
+
+    .table-row span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      max-width: 340px;
+      padding: 13px 14px;
+      border: 1px solid rgba(136, 242, 182, .38);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: var(--mint);
+      box-shadow: var(--shadow);
+      font-weight: 950;
+      transform: translateY(130px);
+      transition: transform .22s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .login-card,
+      .studio-layout,
+      .voice-board,
+      .prompt-grid,
+      .insight-shell,
+      .two {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .nav-tabs {
+        justify-content: flex-start;
+      }
+
+      .top-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .four {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .login-story {
+        min-height: auto;
+        padding: 28px;
+      }
+
+      .login-card {
+        grid-template-columns: 1fr;
+      }
+
+      .login-form-wrap {
+        padding: 28px;
+      }
+
+      .mini-metrics,
+      .three,
+      .four,
+      .check-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-all {
+        grid-column: auto;
+      }
+
+      .page-head {
+        grid-template-columns: 1fr;
+      }
+
+      .table-row {
+        grid-template-columns: 1fr;
+      }
+
+      .bar {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <section class="login-card" aria-label="Login do protótipo">
+      <div class="login-story">
+        <div>
+          <div class="logo avatar-logo"><img src="assets/lucas-avatar-logo.jpeg" alt="Avatar ilustrado de Lucas Melo"></div>
+          <h1>Casa Digital Comms Lab</h1>
+          <p>Um laboratório para criar, revisar e afinar comunicações humanas e de bot sem perder a voz da marca. Fique à vontade, a casa é digital.</p>
+          <span class="login-signature">por Lucas Melo</span>
+        </div>
+        <div class="mini-metrics">
+          <div><strong>4</strong><span>estações</span></div>
+          <div><strong>92%</strong><span>tom alinhado</span></div>
+          <div><strong>18</strong><span>insights</span></div>
+        </div>
+      </div>
+      <div class="login-form-wrap">
+        <form id="loginForm" class="login-form">
+          <span class="eyebrow">Demo para portfolio</span>
+          <h2>Entrar no laboratório</h2>
+          <p>Use o acesso do protótipo ou entre como visitante para explorar.</p>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" type="email" placeholder="commns@lab.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="password">Senha</label>
+            <input id="password" type="password" placeholder="lab123" autocomplete="current-password" required>
+          </div>
+          <div class="login-actions">
+            <button class="btn primary" type="submit">Entrar</button>
+            <button id="guestBtn" class="btn paper" type="button">Entrar como visitante</button>
+          </div>
+          <p id="loginError" class="error" aria-live="polite"></p>
+          <div class="notice">Login: commns@lab.com / lab123. Autenticação simulada e dados fictícios.</div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <div id="appShell" class="app-shell hidden">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo avatar-logo"><img src="assets/lucas-avatar-logo.jpeg" alt="Avatar ilustrado de Lucas Melo"></div>
+          <div>
+            <strong>Casa Digital Comms Lab</strong>
+            <span>Comunicação, voz e experiência</span>
+          </div>
+        </div>
+        <nav id="navTabs" class="nav-tabs" aria-label="Navegação principal">
+          <button class="active" data-view="studio" type="button">Estúdio</button>
+          <button data-view="voice" type="button">Tom da marca</button>
+          <button data-view="prompts" type="button">Prompts de voz</button>
+          <button data-view="insights" type="button">Insights</button>
+        </nav>
+        <div class="top-actions">
+          <button id="exportBtn" class="btn subtle" type="button">Exportar leitura</button>
+          <button id="logoutBtn" class="btn subtle" type="button">Sair</button>
+        </div>
+      </div>
+    </header>
+    <main id="content" class="container"></main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const initialVoice = {
+      manifesto: "A marca fala de forma clara, humana e criativa. Ela acolhe quem chega, explica sem enrolar e entrega orientação com personalidade.",
+      audience: "Pessoas que precisam resolver algo, entender uma etapa ou tomar uma decisão sem sentir que estão lendo um manual frio.",
+      doWords: "claro, humano, simples, direto, criativo, tranquilo, próximo",
+      avoidWords: "robusto, alavancar, disruptivo, prezado cliente, conforme solicitado, caro usuário",
+      warmth: 78,
+      clarity: 88,
+      creativity: 72,
+      formality: 42
+    };
+
+    const initialPrompts = {
+      human: "Atue como revisor de comunicações humanas de CX. Preserve a intenção original, ajuste clareza, empatia e ritmo. Evite jargões, promessas absolutas e tom robótico. Entregue uma versão final curta, uma justificativa e 3 pontos de melhoria.",
+      bot: "Atue como designer de conversas para bot. Responda com frases curtas, próximo passo claro e tom acolhedor. Reconheça o contexto do usuário antes de orientar. Se houver risco, sinalize handoff humano com resumo do caso."
+    };
+
+    const state = {
+      view: "studio",
+      selectedInsight: "clareza",
+      lastSuggestion: "",
+      voice: read("cd_voice", initialVoice),
+      prompts: read("cd_prompts", initialPrompts),
+      communications: read("cd_comms", [
+        { id: "COM-101", title: "Entrega atrasada", channel: "Bot", context: "Suporte", score: 82, clarity: 78, empathy: 91, brand: 76, risk: 22 },
+        { id: "COM-102", title: "Troca e devolução", channel: "Humano", context: "Pós-venda", score: 74, clarity: 69, empathy: 80, brand: 72, risk: 36 },
+        { id: "COM-103", title: "Status do pedido", channel: "Bot", context: "Pós-compra", score: 91, clarity: 94, empathy: 84, brand: 88, risk: 12 }
+      ])
+    };
+
+    const views = {
+      studio: ["Estúdio de comunicação", "Crie, revise e atualize mensagens mantendo clareza, intenção e tom da marca."],
+      voice: ["Tom da marca", "Alimente o sistema com personalidade, palavras permitidas, limites e energia da marca."],
+      prompts: ["Prompts de voz", "Separe a direção de comunicação humana da comunicação automatizada por bot."],
+      insights: ["Insights criativos", "Leia qualidade, risco e alinhamento de voz por gráficos e sinais visuais."]
+    };
+
+    document.addEventListener("DOMContentLoaded", init);
+
+    function init() {
+      bindChrome();
+      if (localStorage.getItem("cd_session") === "true") {
+        showApp();
+      }
+    }
+
+    function bindChrome() {
+      document.querySelector("#loginForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.querySelector("#email").value.trim().toLowerCase();
+        const password = document.querySelector("#password").value;
+        if (email === "commns@lab.com" && password === "lab123") {
+          localStorage.setItem("cd_session", "true");
+          showApp();
+          toast("Bem-vindo. A casa é digital.");
+        } else {
+          document.querySelector("#loginError").textContent = "Acesso inválido para este protótipo.";
+        }
+      });
+
+      document.querySelector("#guestBtn").addEventListener("click", () => {
+        localStorage.setItem("cd_session", "true");
+        showApp();
+        toast("Modo visitante ativado.");
+      });
+
+      document.querySelector("#logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("cd_session");
+        document.querySelector("#appShell").classList.add("hidden");
+        document.querySelector("#loginScreen").classList.remove("hidden");
+      });
+
+      document.querySelector("#exportBtn").addEventListener("click", exportSnapshot);
+
+      document.querySelectorAll("#navTabs button").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.view = button.dataset.view;
+          document.querySelectorAll("#navTabs button").forEach((item) => item.classList.toggle("active", item === button));
+          render();
+        });
+      });
+    }
+
+    function showApp() {
+      document.querySelector("#loginScreen").classList.add("hidden");
+      document.querySelector("#appShell").classList.remove("hidden");
+      render();
+    }
+
+    function render() {
+      const map = { studio: renderStudio, voice: renderVoice, prompts: renderPrompts, insights: renderInsights };
+      map[state.view]();
+    }
+
+    function renderStudio() {
+      const [title, subtitle] = views.studio;
+      const latest = state.communications[0] || sampleScore("Mensagem");
+      const fallbackSuggestion = makeSuggestion("Bot", "Suporte", "Acolher, explicar o status e orientar o próximo passo", "Oi! Identificamos um atraso na sua entrega. Nosso time já está acompanhando o pedido e vamos te atualizar assim que houver uma nova previsão.");
+      document.querySelector("#content").innerHTML = `
+        ${pageHead(title, subtitle, "criar / revisar / atualizar")}
+        <div class="studio-layout">
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2>Nova comunicação</h2>
+                <p>Traga um texto bruto, escolha o tipo de comunicação e deixe o laboratório lapidar sem tirar a alma.</p>
+              </div>
+            </div>
+            <form id="commForm" class="dark-field">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="commTitle">Nome da comunicação</label>
+                  <input id="commTitle" value="Atualização de entrega" required>
+                </div>
+                <div class="field">
+                  <label for="commChannel">Tipo</label>
+                  <select id="commChannel">
+                    <option>Bot</option>
+                    <option>Humano</option>
+                    <option>E-mail</option>
+                    <option>WhatsApp</option>
+                    <option>Push</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="commContext">Contexto</label>
+                  <select id="commContext">
+                    <option>Suporte</option>
+                    <option>Pós-compra</option>
+                    <option>Onboarding</option>
+                    <option>Retenção</option>
+                    <option>Relacionamento</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="commGoal">Objetivo</label>
+                  <input id="commGoal" value="Acolher, explicar o status e orientar o próximo passo">
+                </div>
+                <div class="field span-all">
+                  <label>Linguagem</label>
+                  <div class="check-grid">
+                    ${checkOption("language", "Direta", true)}
+                    ${checkOption("language", "Amigável", true)}
+                    ${checkOption("language", "Resolutiva", true)}
+                    ${checkOption("language", "Criativa", false)}
+                  </div>
+                </div>
+                <div class="field span-all">
+                  <label>Formato / canal</label>
+                  <div class="check-grid">
+                    ${checkOption("format", "Macro", false)}
+                    ${checkOption("format", "E-mail", false)}
+                    ${checkOption("format", "WhatsApp", true)}
+                    ${checkOption("format", "Mídias sociais", false)}
+                  </div>
+                </div>
+                <div class="field span-all">
+                  <label>Intenção principal</label>
+                  <div class="check-grid">
+                    ${checkOption("intent", "Informar", true)}
+                    ${checkOption("intent", "Acolher", true)}
+                    ${checkOption("intent", "Orientar", true)}
+                    ${checkOption("intent", "Engajar", false)}
+                  </div>
+                </div>
+                <div class="field span-all">
+                  <label for="commText">Texto original</label>
+                  <textarea id="commText">Oi! Identificamos um atraso na sua entrega. Nosso time já está acompanhando o pedido e vamos te atualizar assim que houver uma nova previsão.</textarea>
+                </div>
+              </div>
+              <div class="toolbar">
+                <button class="btn primary" type="submit">Analisar e reescrever</button>
+                <button id="clearComm" class="btn subtle" type="button">Limpar</button>
+              </div>
+            </form>
+          </section>
+
+          <aside class="panel pad output-card">
+            <div class="panel-head">
+              <div>
+                <h2>Leitura da comunicação</h2>
+                <p>Score, riscos e uma versão pronta para evoluir.</p>
+              </div>
+            </div>
+            ${scoreRing(latest.score)}
+            ${metricList(latest)}
+            <div>
+              <h3>Versão sugerida</h3>
+              <div id="generatedText" class="generated">${escapeHTML(state.lastSuggestion || fallbackSuggestion)}</div>
+            </div>
+            <div class="chips" id="commChips">${makeChips(latest)}</div>
+          </aside>
+        </div>
+
+        <section class="panel pad" style="margin-top:16px">
+          <div class="panel-head">
+            <div>
+              <h2>Histórico de comunicações</h2>
+              <p>Registros salvos localmente para mostrar evolução, risco e alinhamento com a voz.</p>
+            </div>
+          </div>
+          <div class="table-list">${state.communications.map(commRow).join("")}</div>
+        </section>
+      `;
+
+      document.querySelector("#commForm").addEventListener("submit", handleCommunication);
+      document.querySelector("#clearComm").addEventListener("click", () => {
+        document.querySelector("#commText").value = "";
+        document.querySelector("#commTitle").value = "";
+      });
+    }
+
+    function renderVoice() {
+      const [title, subtitle] = views.voice;
+      document.querySelector("#content").innerHTML = `
+        ${pageHead(title, subtitle, "identidade verbal")}
+        <div class="voice-board">
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2>Alimente a voz</h2>
+                <p>Essa aba funciona como o briefing vivo da marca.</p>
+              </div>
+            </div>
+            <form id="voiceForm" class="dark-field">
+              <div class="field">
+                <label for="voiceManifesto">Como a marca fala</label>
+                <textarea id="voiceManifesto">${escapeHTML(state.voice.manifesto)}</textarea>
+              </div>
+              <div class="field">
+                <label for="voiceAudience">Com quem ela fala</label>
+                <textarea id="voiceAudience">${escapeHTML(state.voice.audience)}</textarea>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="doWords">Palavras que combinam</label>
+                  <textarea id="doWords">${escapeHTML(state.voice.doWords)}</textarea>
+                </div>
+                <div class="field">
+                  <label for="avoidWords">Palavras para evitar</label>
+                  <textarea id="avoidWords">${escapeHTML(state.voice.avoidWords)}</textarea>
+                </div>
+              </div>
+              <button class="btn primary" type="submit">Salvar tom da marca</button>
+            </form>
+          </section>
+
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2>Mesa de mixagem verbal</h2>
+                <p>Ajuste a energia da marca como se fosse som: volume certo, sem estourar.</p>
+              </div>
+            </div>
+            <div id="sliderGrid" class="slider-grid dark-field">
+              ${slider("warmth", "Acolhimento", state.voice.warmth)}
+              ${slider("clarity", "Clareza", state.voice.clarity)}
+              ${slider("creativity", "Criatividade", state.voice.creativity)}
+              ${slider("formality", "Formalidade", state.voice.formality)}
+            </div>
+            <div class="grid two" style="margin-top:16px">
+              <div class="voice-card">
+                <strong>Soa como</strong>
+                <span id="soundsLike">${voiceSummary()}</span>
+              </div>
+              <div class="voice-card">
+                <strong>Não soa como</strong>
+                <span>Atendimento automático frio, texto jurídico disfarçado ou comunicado que pede paciência sem entregar caminho.</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+
+      document.querySelector("#voiceForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        state.voice.manifesto = document.querySelector("#voiceManifesto").value.trim();
+        state.voice.audience = document.querySelector("#voiceAudience").value.trim();
+        state.voice.doWords = document.querySelector("#doWords").value.trim();
+        state.voice.avoidWords = document.querySelector("#avoidWords").value.trim();
+        persist("cd_voice", state.voice);
+        toast("Tom da marca salvo.");
+      });
+
+      document.querySelectorAll("[data-slider]").forEach((input) => {
+        input.addEventListener("input", () => {
+          state.voice[input.dataset.slider] = Number(input.value);
+          persist("cd_voice", state.voice);
+          document.querySelector(`#${input.dataset.slider}Value`).textContent = `${input.value}%`;
+          document.querySelector("#soundsLike").textContent = voiceSummary();
+        });
+      });
+    }
+
+    function renderPrompts() {
+      const [title, subtitle] = views.prompts;
+      document.querySelector("#content").innerHTML = `
+        ${pageHead(title, subtitle, "humano + bot")}
+        <div class="prompt-grid">
+          ${promptEditor("human", "Prompt de comunicação humana", "Para revisões, respostas de atendimento, e-mails e mensagens com assinatura humana.", state.prompts.human)}
+          ${promptEditor("bot", "Prompt de comunicação bot", "Para fluxos automatizados, WhatsApp, chatbot, FAQ inteligente e IA conversacional.", state.prompts.bot)}
+        </div>
+        <section class="panel pad" style="margin-top:16px">
+          <div class="panel-head">
+            <div>
+              <h2>Diretriz combinada</h2>
+              <p>Como os dois prompts se encontram sem virar a mesma voz.</p>
+            </div>
+          </div>
+          <div class="grid three">
+            <div class="voice-card"><strong>Humano</strong><span>Mais contexto, mais nuance, mais abertura para exceção e relacionamento.</span></div>
+            <div class="voice-card"><strong>Bot</strong><span>Mais curto, mais guiado, mais previsível, sempre com próximo passo e limite claro.</span></div>
+            <div class="voice-card"><strong>Marca</strong><span>Clareza antes de charme. Personalidade como tempero, não como obstáculo.</span></div>
+          </div>
+        </section>
+      `;
+
+      document.querySelectorAll("[data-prompt-save]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.promptSave;
+          state.prompts[key] = document.querySelector(`#${key}Prompt`).value.trim();
+          persist("cd_prompts", state.prompts);
+          document.querySelector(`#${key}Preview`).textContent = previewPrompt(key);
+          toast("Prompt de voz salvo.");
+        });
+      });
+    }
+
+    function renderInsights() {
+      const [title, subtitle] = views.insights;
+      const avgScore = average(state.communications, "score");
+      const avgClarity = average(state.communications, "clarity");
+      const avgBrand = average(state.communications, "brand");
+      const avgRisk = average(state.communications, "risk");
+      const signals = [72, 84, 69, 91, 76, 88, 81];
+      document.querySelector("#content").innerHTML = `
+        ${pageHead(title, subtitle, "gráfico vivo")}
+        <div class="grid four">
+          ${miniKpi("Score médio", `${avgScore}%`, "qualidade geral", "good")}
+          ${miniKpi("Clareza", `${avgClarity}%`, "entendimento", "good")}
+          ${miniKpi("Tom da marca", `${avgBrand}%`, "identidade verbal", "good")}
+          ${miniKpi("Risco", `${avgRisk}%`, "atenção editorial", avgRisk > 30 ? "bad" : "warn")}
+        </div>
+        <div class="insight-shell" style="margin-top:16px">
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2>Mapa de qualidade</h2>
+                <p>Clique nas barras para alternar o insight principal.</p>
+              </div>
+            </div>
+            <div class="bars">
+              ${insightBar("clareza", "Clareza", avgClarity)}
+              ${insightBar("empatia", "Empatia", average(state.communications, "empathy"))}
+              ${insightBar("marca", "Tom da marca", avgBrand)}
+              ${insightBar("risco", "Risco textual", 100 - avgRisk)}
+            </div>
+          </section>
+
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2 id="insightTitle">${currentInsight().title}</h2>
+                <p id="insightCopy">${currentInsight().copy}</p>
+              </div>
+            </div>
+            ${scoreRing(currentInsight().score)}
+            <div class="chips">
+              ${currentInsight().tags.map((tag) => `<span class="chip ${tag.tone}">${tag.label}</span>`).join("")}
+            </div>
+          </section>
+        </div>
+        <div class="grid two" style="margin-top:16px">
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2>Ritmo de entendimento</h2>
+                <p>Um gráfico mais orgânico para mostrar quando a comunicação fica mais fácil de seguir.</p>
+              </div>
+            </div>
+            <div class="signal-grid">${signals.map((value) => `<div class="signal"><span style="height:${value}%"></span></div>`).join("")}</div>
+            <div class="signal-labels"><span>seg</span><span>ter</span><span>qua</span><span>qui</span><span>sex</span><span>sab</span><span>dom</span></div>
+          </section>
+          <section class="panel pad">
+            <div class="panel-head">
+              <div>
+                <h2>Insights acionáveis</h2>
+                <p>Leituras que conectam texto, comportamento e experiência.</p>
+              </div>
+            </div>
+            <div class="table-list">
+              ${insightRow("Cortar excesso antes de dar personalidade", "Textos mais curtos mantêm o tom criativo sem virar obstáculo.", "Alta")}
+              ${insightRow("Separar voz humana e voz bot", "O bot precisa ser direto; o humano pode aprofundar com contexto.", "Alta")}
+              ${insightRow("Promessa precisa ter lastro", "Evitar frases como 'vamos resolver rápido' quando não há prazo claro.", "Média")}
+            </div>
+          </section>
+        </div>
+      `;
+
+      document.querySelectorAll("[data-insight]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.selectedInsight = button.dataset.insight;
+          renderInsights();
+        });
+      });
+    }
+
+    function handleCommunication(event) {
+      event.preventDefault();
+      const title = document.querySelector("#commTitle").value.trim() || "Comunicação sem título";
+      const channel = document.querySelector("#commChannel").value;
+      const context = document.querySelector("#commContext").value;
+      const goal = document.querySelector("#commGoal").value.trim();
+      const text = document.querySelector("#commText").value.trim();
+      const options = {
+        language: getCheckedValues("language"),
+        format: getCheckedValues("format"),
+        intent: getCheckedValues("intent")
+      };
+      const score = scoreCommunication(text, channel, context, options);
+      const record = {
+        id: `COM-${Date.now().toString().slice(-5)}`,
+        title,
+        channel,
+        context,
+        options,
+        ...score
+      };
+      state.communications = [record, ...state.communications].slice(0, 8);
+      persist("cd_comms", state.communications);
+      state.lastSuggestion = makeSuggestion(channel, context, goal, text, options);
+      renderStudio();
+      toast("Comunicação analisada e salva.");
+    }
+
+    function scoreCommunication(text, channel, context, options = {}) {
+      const length = text.length;
+      const hasAction = /acompanhar|clique|acesse|responda|envie|confirme|vamos|próximo|proximo|prazo|atualizar/i.test(text);
+      const hasEmpathy = /entendo|sentimos|desculpa|obrigado|oi|olá|ola|tranquilo|estamos/i.test(text);
+      const risky = /(garantimos|imediatamente|sempre|nunca|sem erro|com certeza)/i.test(text);
+      const language = options.language || [];
+      const format = options.format || [];
+      const intent = options.intent || [];
+      const clarity = clamp(88 - Math.max(length - 260, 0) / 12 + (hasAction ? 8 : -8) + (language.includes("Direta") ? 5 : 0) + (intent.includes("Informar") ? 3 : 0));
+      const empathy = clamp(70 + (hasEmpathy ? 18 : -6) + (context === "Suporte" ? 4 : 0) + (language.includes("Amigável") ? 5 : 0) + (intent.includes("Acolher") ? 4 : 0));
+      const brand = clamp((state.voice.clarity * .36) + (state.voice.warmth * .28) + (state.voice.creativity * .2) + (channel === "Bot" ? 8 : 4) + (language.includes("Criativa") ? 4 : 0));
+      const risk = clamp((risky ? 38 : 16) + Math.max(length - 420, 0) / 18 - (hasAction ? 4 : 0) - (language.includes("Resolutiva") ? 4 : 0) + (format.includes("Mídias sociais") ? 3 : 0));
+      const score = clamp((clarity * .34) + (empathy * .24) + (brand * .28) + ((100 - risk) * .14));
+      return { score, clarity, empathy, brand, risk };
+    }
+
+    function makeSuggestion(channel, context, goal, text, options = {}) {
+      const lead = channel === "Bot" ? "Oi! Já vi o que aconteceu." : "Oi, tudo bem? Já entendi o ponto por aqui.";
+      const contextLine = context === "Suporte" ? "Seu caso merece clareza, sem te jogar em um labirinto." : "Vou deixar o caminho simples para você seguir sem precisar adivinhar.";
+      const action = goal ? goal.replace(/\.$/, "") : "explicar o próximo passo";
+      const languageLine = buildLanguageLine(options.language || []);
+      const formatLine = buildFormatLine(options.format || []);
+      const intentLine = buildIntentLine(options.intent || []);
+      return `${lead}\n${contextLine}\n\n${formatLine}${languageLine}${intentLine}Resumo: ${cleanText(text)}\n\nPróximo passo: ${action}. Se algo fugir desse caminho, a conversa deve seguir com contexto para atendimento humano.`;
+    }
+
+    function cleanText(text) {
+      if (!text) return "a comunicação precisa informar o que aconteceu, o que a pessoa pode esperar e qual é o próximo passo.";
+      return text
+        .replace(/prezado cliente/ig, "oi")
+        .replace(/conforme solicitado/ig, "sobre isso")
+        .replace(/\s+/g, " ")
+        .slice(0, 220);
+    }
+
+    function pageHead(title, subtitle, pill) {
+      return `<div class="page-head"><div><h1>${title}</h1><p>${subtitle}</p></div><span class="status-pill">${pill}</span></div>`;
+    }
+
+    function scoreRing(score) {
+      return `<div class="score-ring" style="--value:${score}"><div><strong>${score}</strong><span>score de voz</span></div></div>`;
+    }
+
+    function metricList(item, innerOnly = false) {
+      const html = `<div class="metric-list">
+        ${metric("Clareza", item.clarity)}
+        ${metric("Empatia", item.empathy)}
+        ${metric("Marca", item.brand)}
+        ${metric("Risco", 100 - item.risk)}
+      </div>`;
+      return innerOnly ? html.replace(/^<div class="metric-list">|<\/div>$/g, "") : html;
+    }
+
+    function metric(label, value) {
+      return `<div class="metric-row"><span>${label}</span><div class="track"><div class="fill" style="width:${value}%"></div></div><strong>${value}%</strong></div>`;
+    }
+
+    function commRow(item) {
+      const tone = item.score >= 86 ? "good" : item.score >= 76 ? "warn" : "bad";
+      const details = [item.channel, item.context, optionSummary(item.options)].filter(Boolean).join(" | ");
+      return `<div class="table-row">
+        <div><strong>${escapeHTML(item.title)}</strong><span>${details}</span></div>
+        <div><strong>${item.clarity}%</strong><span>clareza</span></div>
+        <div><strong>${item.brand}%</strong><span>marca</span></div>
+        <span class="chip ${tone}">${item.score}% score</span>
+      </div>`;
+    }
+
+    function checkOption(name, value, checked = false) {
+      return `<label class="check-card"><input type="checkbox" name="${name}" value="${value}" ${checked ? "checked" : ""}>${value}</label>`;
+    }
+
+    function getCheckedValues(name) {
+      return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map((input) => input.value);
+    }
+
+    function optionSummary(options = {}) {
+      const parts = [];
+      if (options.language?.length) parts.push(options.language.join(", "));
+      if (options.format?.length) parts.push(options.format.join(", "));
+      if (options.intent?.length) parts.push(options.intent.join(", "));
+      return parts.length ? parts.join(" / ") : "";
+    }
+
+    function buildLanguageLine(language) {
+      if (!language.length) return "";
+      const notes = [];
+      if (language.includes("Direta")) notes.push("sem rodeio");
+      if (language.includes("Amigável")) notes.push("com acolhimento leve");
+      if (language.includes("Resolutiva")) notes.push("com caminho claro");
+      if (language.includes("Criativa")) notes.push("com personalidade sem exagero");
+      return `Linguagem: ${notes.join(", ")}.\n`;
+    }
+
+    function buildFormatLine(format) {
+      if (!format.length) return "";
+      if (format.includes("WhatsApp")) return "Formato: curto, escaneável e pronto para conversa.\n";
+      if (format.includes("E-mail")) return "Formato: abertura clara, contexto, orientação e fechamento educado.\n";
+      if (format.includes("Macro")) return "Formato: resposta reutilizável, consistente e fácil de adaptar.\n";
+      if (format.includes("Mídias sociais")) return "Formato: sintético, mais expressivo e com gancho de atenção.\n";
+      return "";
+    }
+
+    function buildIntentLine(intent) {
+      if (!intent.length) return "";
+      const notes = [];
+      if (intent.includes("Informar")) notes.push("dizer o que aconteceu");
+      if (intent.includes("Acolher")) notes.push("reconhecer o momento da pessoa");
+      if (intent.includes("Orientar")) notes.push("mostrar o próximo passo");
+      if (intent.includes("Engajar")) notes.push("convidar a continuar a conversa");
+      return `Intenção: ${notes.join(", ")}.\n`;
+    }
+
+    function slider(key, label, value) {
+      return `<div class="field">
+        <label for="${key}">${label} <span id="${key}Value">${value}%</span></label>
+        <input id="${key}" data-slider="${key}" type="range" min="0" max="100" value="${value}">
+      </div>`;
+    }
+
+    function voiceSummary() {
+      const tone = state.voice.formality > 65 ? "profissional e controlada" : "próxima e direta";
+      const warmth = state.voice.warmth > 70 ? "acolhedora" : "objetiva";
+      const creativity = state.voice.creativity > 70 ? "com um toque autoral" : "sem firula";
+      return `Uma voz ${warmth}, ${tone}, ${creativity}. Explica primeiro, encanta depois.`;
+    }
+
+    function promptEditor(key, title, copy, value) {
+      return `<section class="panel pad">
+        <div class="panel-head">
+          <div><h2>${title}</h2><p>${copy}</p></div>
+        </div>
+        <div class="field dark-field">
+          <label for="${key}Prompt">Prompt base</label>
+          <textarea id="${key}Prompt">${escapeHTML(value)}</textarea>
+        </div>
+        <div class="toolbar">
+          <button class="btn primary" data-prompt-save="${key}" type="button">Salvar prompt</button>
+        </div>
+        <h3 style="margin-top:18px">Preview de comportamento</h3>
+        <div id="${key}Preview" class="prompt-preview">${previewPrompt(key)}</div>
+      </section>`;
+    }
+
+    function previewPrompt(key) {
+      if (key === "human") {
+        return "Resposta humana esperada:\nOi, entendi o que aconteceu. Vou te explicar o caminho mais simples e deixar claro o que já conseguimos fazer agora.";
+      }
+      return "Resposta bot esperada:\nOi! Posso te ajudar com isso.\nPrimeiro, escolha uma opção. Depois eu te mostro o próximo passo.";
+    }
+
+    function miniKpi(label, value, helper, tone) {
+      return `<section class="panel pad">
+        <span class="chip ${tone}">${label}</span>
+        <h2 style="font-size:34px;margin:12px 0 4px">${value}</h2>
+        <p>${helper}</p>
+      </section>`;
+    }
+
+    function insightBar(key, label, value) {
+      return `<div class="bar">
+        <span>${label}</span>
+        <button data-insight="${key}" type="button" aria-label="${label}"><i style="width:${value}%"></i></button>
+        <strong>${value}%</strong>
+      </div>`;
+    }
+
+    function currentInsight() {
+      const items = {
+        clareza: { title: "Clareza antes de charme", copy: "A comunicação performa melhor quando a pessoa entende o que aconteceu e o que fazer sem precisar reler.", score: 88, tags: [{ label: "reduzir texto", tone: "good" }, { label: "ação no topo", tone: "good" }] },
+        empatia: { title: "Empatia precisa ser concreta", copy: "Não basta dizer que entende. O texto deve reconhecer o momento e entregar um caminho útil.", score: 84, tags: [{ label: "tom humano", tone: "good" }, { label: "sem teatrinho", tone: "warn" }] },
+        marca: { title: "Voz com assinatura", copy: "A marca aparece nos detalhes: ritmo, escolha de palavras e jeito de guiar sem pesar.", score: 81, tags: [{ label: "verde casa digital", tone: "good" }, { label: "autoridade leve", tone: "good" }] },
+        risco: { title: "Risco mora nas promessas", copy: "Palavras absolutas e prazos vagos deixam o texto bonito, mas frágil. Melhor prometer caminho do que milagre.", score: 73, tags: [{ label: "evitar absoluto", tone: "bad" }, { label: "dar contexto", tone: "warn" }] }
+      };
+      return items[state.selectedInsight] || items.clareza;
+    }
+
+    function insightRow(title, detail, impact) {
+      const tone = impact === "Alta" ? "bad" : "warn";
+      return `<div class="table-row">
+        <div><strong>${title}</strong><span>${detail}</span></div>
+        <div><strong>${impact}</strong><span>prioridade</span></div>
+        <div><strong>UX/CX</strong><span>área</span></div>
+        <span class="chip ${tone}">${impact}</span>
+      </div>`;
+    }
+
+    function makeChips(record) {
+      const chips = [];
+      chips.push(record.clarity > 82 ? ["clareza boa", "good"] : ["clareza pode subir", "warn"]);
+      chips.push(record.empathy > 82 ? ["tom humano", "good"] : ["mais acolhimento", "warn"]);
+      chips.push(record.risk > 30 ? ["revisar promessa", "bad"] : ["risco controlado", "good"]);
+      return chips.map(([label, tone]) => `<span class="chip ${tone}">${label}</span>`).join("");
+    }
+
+    function exportSnapshot() {
+      const payload = {
+        project: "Casa Digital Comms Lab",
+        voice: state.voice,
+        prompts: state.prompts,
+        communications: state.communications,
+        generatedAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "casa-digital-comms-lab.json";
+      link.click();
+      URL.revokeObjectURL(url);
+      toast("Leitura exportada.");
+    }
+
+    function read(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) || fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function persist(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function average(items, key) {
+      if (!items.length) return 0;
+      return Math.round(items.reduce((sum, item) => sum + Number(item[key] || 0), 0) / items.length);
+    }
+
+    function clamp(value) {
+      return Math.max(0, Math.min(100, Math.round(value)));
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function sampleScore(title) {
+      return { title, channel: "Bot", context: "Suporte", score: 82, clarity: 78, empathy: 91, brand: 76, risk: 22 };
+    }
+
+    function toast(message) {
+      const el = document.querySelector("#toast");
+      el.textContent = message;
+      el.classList.add("show");
+      window.clearTimeout(window.toastTimer);
+      window.toastTimer = window.setTimeout(() => el.classList.remove("show"), 2600);
+    }
+  </script>
+</body>
+</html>
